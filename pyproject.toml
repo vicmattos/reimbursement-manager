@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "reimbursement-manager"
+version = "0.1.0"
+description = "Personal project to manage my reimbursement requests"
+authors = ["Victor Mattos <5757883+vicmattos@users.noreply.github.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
