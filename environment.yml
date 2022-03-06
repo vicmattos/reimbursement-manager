@@ -1,0 +1,9 @@
+name: syspy
+channels:
+  - default
+  - conda-forge
+dependencies:
+  - python=3.9.10
+  - pip=22.0.3
+  - pip:
+    - pre-commit==2.17.0
