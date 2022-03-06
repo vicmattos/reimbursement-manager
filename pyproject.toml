@@ -4,6 +4,10 @@ version = "0.1.0"
 description = "Personal project to manage my reimbursement requests"
 authors = ["Victor Mattos <5757883+vicmattos@users.noreply.github.com>"]
 license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/vicmattos/reimbursement-manager"
+repository = "https://github.com/vicmattos/reimbursement-manager"
+keywords = ["reimbursement"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
