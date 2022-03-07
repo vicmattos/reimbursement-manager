@@ -6,6 +6,13 @@ vars:
 tasks:
   dev-setup:
     desc: Setup the development environment
+    summary: |
+      Prepare your local development environment.
+
+      It will:
+      - Install the python with conda for the project;
+      - Create a conda virtualenv with python based system development dependencies;
+      - Install git pre-commit hooks;
     cmds:
       - task: pyenv:install
       - task: conda:create-env
