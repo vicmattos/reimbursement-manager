@@ -1,4 +1,4 @@
-name: syspy
+name: reimbursement
 channels:
   - default
   - conda-forge
