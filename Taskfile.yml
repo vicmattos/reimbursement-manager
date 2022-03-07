@@ -1,0 +1,11 @@
+version: '3'
+
+tasks:
+  dev-setup:
+    desc: Setup the development environment
+    cmds:
+      - task: pre-commit:install-hooks
+
+  pre-commit:install-hooks:
+    cmds:
+      - pre-commit install
