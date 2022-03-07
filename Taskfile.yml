@@ -1,14 +1,25 @@
 version: '3'
 
+vars:
+  CONDAENV: reimbursement
+
 tasks:
   dev-setup:
     desc: Setup the development environment
     cmds:
+      - task: pyenv:install
+      - task: conda:create-env
       - task: pre-commit:install-hooks
 
   pyenv:install:
     cmds:
       - pyenv install --skip-existing
+
+  conda:create-env:
+    cmds:
+      - conda env create -f environment.yaml
+    status:
+      - conda env list | grep {{.CONDAENV}}
 
   pre-commit:install-hooks:
     cmds:
