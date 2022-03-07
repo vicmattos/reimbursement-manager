@@ -6,6 +6,10 @@ tasks:
     cmds:
       - task: pre-commit:install-hooks
 
+  pyenv:install:
+    cmds:
+      - pyenv install --skip-existing
+
   pre-commit:install-hooks:
     cmds:
       - pre-commit install
