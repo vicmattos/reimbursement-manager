@@ -31,3 +31,15 @@ tasks:
   pre-commit:install-hooks:
     cmds:
       - pre-commit install
+
+  install:
+    cmds:
+      - poetry install --no-interaction
+
+  test:
+    cmds:
+      - nox --session tests --reuse-existing-virtualenvs
+
+  reimbursement:version:
+    cmds:
+      - poetry run reimbursement-manager --version
