@@ -1,8 +1,5 @@
 version: '3'
 
-vars:
-  CONDAENV: reimbursement
-
 tasks:
   dev-setup:
     desc: Setup the development environment
@@ -10,27 +7,30 @@ tasks:
       Prepare your local development environment.
 
       It will:
-      - Install the python with conda for the project;
-      - Create a conda virtualenv with python based system development dependencies;
+      - Install project's python version;
       - Install git pre-commit hooks;
+      - Create Python virtual environment
     cmds:
-      - task: pyenv:install
-      - task: conda:create-env
       - task: pre-commit:install-hooks
+      - task: python:create-venv
 
   pyenv:install:
     cmds:
       - pyenv install --skip-existing
-
-  conda:create-env:
-    cmds:
-      - conda env create -f environment.yaml
-    status:
-      - conda env list | grep {{.CONDAENV}}
+    preconditions:
+      - sh: command -v pyenv >/dev/null 2>&1
+        msg: "Command `pyenv` not found. Halting"
 
   pre-commit:install-hooks:
     cmds:
       - pre-commit install
+    preconditions:
+      - sh: command -v pre-commit >/dev/null 2>&1
+        msg: "Command pre-commit not found. Halting"
+
+  python:create-venv:
+    cmds:
+      - python3 -m venv .venv
 
   install:
     cmds:
