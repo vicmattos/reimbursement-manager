@@ -4,5 +4,6 @@ from typing import Any
 class AddPurchaseController():
     def handle(self, request: Any) -> Any:
         return {
-            'status_code': 400
+            'status_code': 400,
+            'body': "Missing param: amount"
         }
