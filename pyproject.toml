@@ -29,7 +29,7 @@ source = ["reimbursement_manager"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 96
+fail_under = 98
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

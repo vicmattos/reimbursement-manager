@@ -7,4 +7,4 @@ class Controller(ABC):
 
     @abstractmethod
     def handle(self, http_request: HttpRequest) -> HttpResponse:
-        raise NotImplementedError()
+        raise NotImplementedError() # pragma: no cover
