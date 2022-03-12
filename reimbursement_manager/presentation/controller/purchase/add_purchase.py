@@ -3,7 +3,7 @@ from reimbursement_manager.presentation.helpers.http_helper import invalid_reque
 from reimbursement_manager.presentation.protocols.http import HttpResponse, HttpRequest
 from reimbursement_manager.presentation.protocols.controller import Controller
 from reimbursement_manager.presentation.protocols.currency_validator import CurrencyValidator
-from reimbursement_manager.presentation.errors import MissingParamError
+from reimbursement_manager.presentation.errors import MissingParamError, InvalidParamError
 
 class AddPurchaseController(Controller):
 
@@ -21,9 +21,9 @@ class AddPurchaseController(Controller):
             currency = request.body.get('currency')
             is_valid = self._currency_validator.is_valid(currency)
             if not is_valid:
-                raise Exception('Invalid param: currency')
+                raise InvalidParamError(param_name='currency')
 
-        except (MissingParamError, Exception) as err:
-            response = invalid_request_response(message=str(err))
+        except (MissingParamError, InvalidParamError) as err:
+            response = invalid_request_response(message=err.message)
 
         return response
