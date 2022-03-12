@@ -15,6 +15,17 @@ def sut(currency_validator_stub):
 
 
 @pytest.fixture
+def http_request():
+    return HttpRequest(
+        body = dict(
+            amount = Decimal(10.00),
+            currency = "BRL",
+            date = date.today()
+        )
+    )
+
+
+@pytest.fixture
 def currency_validator_stub():
     class CurrencyValidatorStub(CurrencyValidator):
         def is_valid(self, currency: str) -> bool:
@@ -22,59 +33,30 @@ def currency_validator_stub():
     return CurrencyValidatorStub()
 
 
-def test_return_400_if_no_amount_is_provided(sut):
-    http_request = HttpRequest(
-        body = dict(
-            # amount = Decimal(10.00),
-            currency = "BRL",
-            date = date.today()
-        )
-    )
+def test_return_400_if_no_amount_is_provided(sut, http_request):
+    http_request.body.pop('amount', None)
     http_response: HttpResponse = sut.handle(http_request)
     assert http_response.status_code == 400
     assert http_response.body.get('message') == "Missing param: amount"
 
 
-def test_return_400_if_no_currency_is_provided(sut):
-    http_request = HttpRequest(
-        body = dict(
-            amount = Decimal(10.00),
-            # currency = "BRL",
-            date = date.today()
-        )
-    )
+def test_return_400_if_no_currency_is_provided(sut, http_request):
+    http_request.body.pop('currency', None)
     http_response: HttpResponse = sut.handle(http_request)
     assert http_response.status_code == 400
     assert http_response.body.get('message') == "Missing param: currency"
 
 
-def test_return_400_if_no_date_is_provided(sut):
-    http_request = HttpRequest(
-        body = dict(
-            amount = Decimal(10.00),
-            currency = "BRL",
-            # date = date.today()
-        )
-    )
+def test_return_400_if_no_date_is_provided(sut, http_request):
+    http_request.body.pop('date', None)
     http_response: HttpResponse = sut.handle(http_request)
     assert http_response.status_code == 400
     assert http_response.body.get('message') == "Missing param: date"
 
 
-def test_return_400_if_invalid_currency_is_provided(sut, currency_validator_stub, mocker):
-
-    http_request = HttpRequest(
-        body = dict(
-            amount = Decimal(10.00),
-            currency = "BRL",
-            date = date.today()
-        )
-    )
-
+def test_return_400_if_invalid_currency_is_provided(sut, http_request, currency_validator_stub, mocker):
     # Make `currency_validator.is_valid` return False
     mocker.patch.object(currency_validator_stub, "is_valid", return_value=False)
-
     http_response: HttpResponse = sut.handle(http_request)
-
     assert http_response.status_code == 400
     assert http_response.body.get('message') == "Invalid param: currency"
