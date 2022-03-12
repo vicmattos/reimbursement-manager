@@ -11,4 +11,7 @@ class AddPurchaseController():
         if request.body.get('currency') is None:
             response: HttpResponse = invalid_request_response(message="Missing param: currency")
 
+        if request.body.get('date') is None:
+            response: HttpResponse = invalid_request_response(message="Missing param: date")
+
         return response
