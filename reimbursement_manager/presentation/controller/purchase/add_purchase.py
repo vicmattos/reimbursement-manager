@@ -1,17 +1,18 @@
 
 from reimbursement_manager.presentation.helpers.http_helper import invalid_request_response
 from reimbursement_manager.presentation.protocols.http import HttpResponse, HttpRequest
+from reimbursement_manager.presentation.errors import MissingParamError
 
 class AddPurchaseController():
     def handle(self, request: HttpRequest) -> HttpResponse:
 
-        if request.body.get('amount') is None:
-            response: HttpResponse = invalid_request_response(message="Missing param: amount")
+        try:
+            for required_field in ['amount', 'currency', 'date']:
+                field_value = request.body.get(required_field, None)
+                if field_value is None:
+                    raise MissingParamError(param_name=required_field)
 
-        if request.body.get('currency') is None:
-            response: HttpResponse = invalid_request_response(message="Missing param: currency")
-
-        if request.body.get('date') is None:
-            response: HttpResponse = invalid_request_response(message="Missing param: date")
+        except (MissingParamError) as err:
+            response = invalid_request_response(message=err.message)
 
         return response
