@@ -1,9 +1,10 @@
 
 from reimbursement_manager.presentation.helpers.http_helper import invalid_request_response
 from reimbursement_manager.presentation.protocols.http import HttpResponse, HttpRequest
+from reimbursement_manager.presentation.protocols.controller import Controller
 from reimbursement_manager.presentation.errors import MissingParamError
 
-class AddPurchaseController():
+class AddPurchaseController(Controller):
     def handle(self, request: HttpRequest) -> HttpResponse:
 
         try:
