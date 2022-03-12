@@ -16,6 +16,7 @@ python = "^3.9"
 pytest = "^7.0.1"
 coverage = {extras = ["toml"], version = "^6.3.2"}
 pytest-cov = "^3.0.0"
+pytest-mock = "^3.7.0"
 
 [tool.poetry.scripts]
 reimbursement-manager = "reimbursement_manager.console:main"
