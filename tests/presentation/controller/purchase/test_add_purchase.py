@@ -29,7 +29,7 @@ def http_request():
 def add_purchase_stub():
     class AddPurchaseStub(AddPurchase):
         def add(self, amount: Decimal, currency: str, date: date) -> None:
-            pass
+            return None
     return AddPurchaseStub()
 
 
@@ -115,3 +115,8 @@ def test_ensure_add_purchase_call_with_correct_values(sut, http_request, add_pur
         currency=http_request.body.get("currency"),
         date=http_request.body.get("date")
     )
+
+
+def test_return_200_if_correct_values_are_provided(sut, http_request):
+    http_response: HttpResponse = sut.handle(http_request)
+    assert http_response.status_code == 200
