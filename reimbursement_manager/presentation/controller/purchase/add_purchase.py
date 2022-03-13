@@ -16,6 +16,10 @@ class AddPurchaseController(Controller):
                 if field_value is None:
                     raise MissingParamError(param_name=required_field)
 
+            amount = request.body.get('amount')
+            if amount < 0:
+                raise InvalidParamError(param_name='amount')
+
             currency = request.body.get('currency')
             is_valid = self._currency_validator.is_valid(currency)
             if not is_valid:
