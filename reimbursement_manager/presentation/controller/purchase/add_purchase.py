@@ -17,7 +17,7 @@ class AddPurchaseController(Controller):
                     raise MissingParamError(param_name=required_field)
 
             amount = request.body.get('amount')
-            if amount < 0:
+            if amount <= 0:
                 raise InvalidParamError(param_name='amount')
 
             currency = request.body.get('currency')
