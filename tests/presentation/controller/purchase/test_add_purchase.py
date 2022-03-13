@@ -61,7 +61,7 @@ def test_return_400_if_invalid_currency_is_provided(sut, http_request, currency_
     assert http_response.body.get('message') == "Invalid param: currency"
 
 
-def test_return_400_for_invalid_currency_by_currency_validator_call(sut, http_request, currency_validator_stub, mocker):
+def test_ensure_currency_validator_call_for_invalid_currency(sut, http_request, currency_validator_stub, mocker):
     tested_currency_value = "Some currency"
     # Make `currency_validator.is_valid` return False
     mocker.patch.object(currency_validator_stub, "is_valid", return_value=False)
