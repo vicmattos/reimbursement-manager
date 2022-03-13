@@ -72,3 +72,11 @@ def test_calls_currency_validator_method(sut, http_request, currency_validator_s
     mocker.patch.dict(http_request.body, {'currency': tested_currency_value})
     sut.handle(http_request)
     spy.assert_called_once_with(tested_currency_value)
+
+
+def test_return_500_if_CurrencyValidator_raises_error(sut, http_request, currency_validator_stub, mocker):
+    # Make `currency_validator.is_valid` raises Exception
+    mocker.patch.object(currency_validator_stub, "is_valid", side_effect=Exception)
+    http_response: HttpResponse = sut.handle(http_request)
+    assert http_response.status_code == 500
+    assert http_response.body.get('message') == "Internal Server Error"
