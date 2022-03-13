@@ -11,7 +11,7 @@ class AddPurchaseController(Controller):
 
     def handle(self, request: HttpRequest) -> HttpResponse:
         try:
-            self._validate_required_fields(request.body, ['amount', 'currency', 'date'])
+            self._validate_required_fields(['amount', 'currency', 'date'], request.body)
             self._validate_amount(request.body.get('amount'))
             self._validate_currency(request.body.get('currency'))
 
@@ -23,7 +23,7 @@ class AddPurchaseController(Controller):
         return response
 
 
-    def _validate_required_fields(self, body: dict, required_fields: List[str]) -> None:
+    def _validate_required_fields(self, required_fields: List[str], body: dict) -> None:
         for required_field in required_fields:
             field_value = body.get(required_field, None)
             if field_value is None:
