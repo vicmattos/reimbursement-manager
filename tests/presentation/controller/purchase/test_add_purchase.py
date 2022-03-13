@@ -53,6 +53,14 @@ def test_return_400_if_no_date_is_provided(sut, http_request):
     assert http_response.body.get('message') == "Missing param: date"
 
 
+def test_return_400_if_negative_amount_is_provided(sut, http_request, mocker):
+    # Change value in http_request.body['amount'] to negative
+    mocker.patch.dict(http_request.body, {'amount': -1})
+    http_response: HttpResponse = sut.handle(http_request)
+    assert http_response.status_code == 400
+    assert http_response.body.get('message') == "Invalid param: amount"
+
+
 def test_return_400_if_invalid_currency_is_provided(sut, http_request, currency_validator_stub, mocker):
     # Make `currency_validator.is_valid` return False
     mocker.patch.object(currency_validator_stub, "is_valid", return_value=False)
