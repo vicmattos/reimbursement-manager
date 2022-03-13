@@ -3,10 +3,12 @@ from typing import List
 from reimbursement_manager.presentation.helpers.http_helper import invalid_request_response, internal_error_response
 from reimbursement_manager.presentation.protocols import HttpResponse, HttpRequest, Controller, CurrencyValidator
 from reimbursement_manager.presentation.errors import MissingParamError, InvalidParamError
+from reimbursement_manager.domain.use_cases.add_purchase import AddPurchase
 
 class AddPurchaseController(Controller):
 
-    def __init__(self, currency_validator: CurrencyValidator):
+    def __init__(self, add_purchase: AddPurchase, currency_validator: CurrencyValidator):
+        self._add_purchase = add_purchase
         self._currency_validator = currency_validator
 
     def handle(self, request: HttpRequest) -> HttpResponse:
@@ -14,6 +16,14 @@ class AddPurchaseController(Controller):
             self._validate_required_fields(['amount', 'currency', 'date'], request.body)
             self._validate_amount(request.body.get('amount'))
             self._validate_currency(request.body.get('currency'))
+
+            self._add_purchase.add(
+                amount=request.body.get('amount'),
+                currency=request.body.get('currency'),
+                date=request.body.get('date')
+            )
+
+            response = None
 
         except (MissingParamError, InvalidParamError) as err:
             response = invalid_request_response(message=err.message)
