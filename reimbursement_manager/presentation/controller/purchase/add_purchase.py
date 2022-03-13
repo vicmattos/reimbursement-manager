@@ -1,6 +1,6 @@
 from typing import List
 
-from reimbursement_manager.presentation.helpers.http_helper import invalid_request_response, internal_error_response
+from reimbursement_manager.presentation.helpers.http_helper import invalid_request_response, internal_error_response, success_response
 from reimbursement_manager.presentation.protocols import HttpResponse, HttpRequest, Controller, CurrencyValidator
 from reimbursement_manager.presentation.errors import MissingParamError, InvalidParamError
 from reimbursement_manager.domain.use_cases.add_purchase import AddPurchase
@@ -23,7 +23,7 @@ class AddPurchaseController(Controller):
                 date=request.body.get('date')
             )
 
-            response = None
+            response = success_response()
 
         except (MissingParamError, InvalidParamError) as err:
             response = invalid_request_response(message=err.message)
