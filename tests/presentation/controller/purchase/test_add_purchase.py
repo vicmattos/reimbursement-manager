@@ -6,11 +6,12 @@ import pytest
 
 from reimbursement_manager.presentation.controller.purchase import AddPurchaseController
 from reimbursement_manager.presentation.protocols import HttpResponse, HttpRequest, CurrencyValidator
+from reimbursement_manager.domain.use_cases.add_purchase import AddPurchase
 
 
 @pytest.fixture
-def sut(currency_validator_stub):
-    return AddPurchaseController(currency_validator_stub)
+def sut(add_purchase_stub, currency_validator_stub):
+    return AddPurchaseController(add_purchase_stub, currency_validator_stub)
 
 
 @pytest.fixture
@@ -22,6 +23,14 @@ def http_request():
             date = date.today()
         )
     )
+
+
+@pytest.fixture
+def add_purchase_stub():
+    class AddPurchaseStub(AddPurchase):
+        def add(self, amount: Decimal, currency: str, date: date) -> None:
+            pass
+    return AddPurchaseStub()
 
 
 @pytest.fixture
@@ -95,3 +104,14 @@ def test_return_500_if_CurrencyValidator_raises_error(sut, http_request, currenc
     http_response: HttpResponse = sut.handle(http_request)
     assert http_response.status_code == 500
     assert http_response.body.get('message') == "Internal Server Error"
+
+
+def test_ensure_add_purchase_call_with_correct_values(sut, http_request, add_purchase_stub, mocker):
+    # Monitor method add_purchase_stub.add
+    spy = mocker.spy(add_purchase_stub, "add")
+    sut.handle(http_request)
+    spy.assert_called_once_with(
+        amount=http_request.body.get("amount"),
+        currency=http_request.body.get("currency"),
+        date=http_request.body.get("date")
+    )
