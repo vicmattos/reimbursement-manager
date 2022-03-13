@@ -5,8 +5,7 @@ from datetime import date
 import pytest
 
 from reimbursement_manager.presentation.controller.purchase import AddPurchaseController
-from reimbursement_manager.presentation.protocols.http import HttpResponse, HttpRequest
-from reimbursement_manager.presentation.protocols.currency_validator import CurrencyValidator
+from reimbursement_manager.presentation.protocols import HttpResponse, HttpRequest, CurrencyValidator
 
 
 @pytest.fixture

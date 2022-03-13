@@ -1,8 +1,6 @@
 
 from reimbursement_manager.presentation.helpers.http_helper import invalid_request_response, internal_error_response
-from reimbursement_manager.presentation.protocols.http import HttpResponse, HttpRequest
-from reimbursement_manager.presentation.protocols.controller import Controller
-from reimbursement_manager.presentation.protocols.currency_validator import CurrencyValidator
+from reimbursement_manager.presentation.protocols import HttpResponse, HttpRequest, Controller, CurrencyValidator
 from reimbursement_manager.presentation.errors import MissingParamError, InvalidParamError
 
 class AddPurchaseController(Controller):
