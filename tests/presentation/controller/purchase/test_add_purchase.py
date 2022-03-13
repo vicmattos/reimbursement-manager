@@ -60,3 +60,15 @@ def test_return_400_if_invalid_currency_is_provided(sut, http_request, currency_
     http_response: HttpResponse = sut.handle(http_request)
     assert http_response.status_code == 400
     assert http_response.body.get('message') == "Invalid param: currency"
+
+
+def test_calls_currency_validator_method(sut, http_request, currency_validator_stub, mocker):
+    tested_currency_value = "Some currency"
+    # Make `currency_validator.is_valid` return False
+    mocker.patch.object(currency_validator_stub, "is_valid", return_value=False)
+    # Monitor method currency_validator_stub.is_valid
+    spy = mocker.spy(currency_validator_stub, "is_valid")
+    # Change value in http_request.body['currency'] to specified
+    mocker.patch.dict(http_request.body, {'currency': tested_currency_value})
+    sut.handle(http_request)
+    spy.assert_called_once_with(tested_currency_value)
