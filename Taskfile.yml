@@ -39,7 +39,3 @@ tasks:
   test:
     cmds:
       - nox --session tests --reuse-existing-virtualenvs
-
-  reimbursement:version:
-    cmds:
-      - poetry run reimbursement-manager --version
