@@ -1,0 +1,8 @@
+[flake8]
+select = C,E,F,W
+max-complexity = 10
+ignore =
+    # E501: line too long
+    E501,
+    # E303: too many blank lines
+    # E303,
