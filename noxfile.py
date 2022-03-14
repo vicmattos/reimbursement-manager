@@ -14,5 +14,5 @@ def tests(session):
 @nox.session()
 def flake8(session):
     args = session.posargs or locations
-    session.install("flake8")
+    session.install("flake8", "flake8-import-order")
     session.run("flake8", *args)
