@@ -4,7 +4,7 @@ from reimbursement_manager.presentation.protocols.http import HttpResponse
 
 
 def success_response() -> HttpResponse:
-    return HttpResponse(status_code=HTTPStatus.OK)
+    return HttpResponse(status_code=HTTPStatus.OK.value)
 
 
 def invalid_request_response(message: str) -> HttpResponse:
