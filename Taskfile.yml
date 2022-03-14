@@ -29,6 +29,7 @@ tasks:
         msg: "Command pre-commit not found. Halting"
 
   python:create-venv:
+    deps: ['pyenv:install']
     cmds:
       - python3 -m venv .venv
 
