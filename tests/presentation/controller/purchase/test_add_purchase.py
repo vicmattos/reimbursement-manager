@@ -11,8 +11,8 @@ from reimbursement_manager.domain.model.purchase import PurchaseModel
 
 
 @pytest.fixture
-def sut(add_purchase_stub, currency_validator_stub):
-    return AddPurchaseController(add_purchase_stub, currency_validator_stub)
+def sut(add_purchase_dummy, currency_validator_stub):
+    return AddPurchaseController(add_purchase_dummy, currency_validator_stub)
 
 
 @pytest.fixture
@@ -27,11 +27,11 @@ def http_request():
 
 
 @pytest.fixture
-def add_purchase_stub():
-    class AddPurchaseStub(AddPurchase):
+def add_purchase_dummy():
+    class AddPurchaseDummy(AddPurchase):
         def add(self, add_purchase_model: AddPurchaseModel) -> PurchaseModel:
-            return None
-    return AddPurchaseStub()
+            pass
+    return AddPurchaseDummy()
 
 
 @pytest.fixture
@@ -116,9 +116,9 @@ def test_return_500_if_CurrencyValidator_raises_error(sut, http_request, currenc
     assert http_response.body.get('message') == "Internal Server Error"
 
 
-def test_call_add_purchase_with_correct_values(sut, http_request, add_purchase_stub, add_purchase_model_fake, mocker):
-    # Monitor method add_purchase_stub.add
-    spy = mocker.spy(add_purchase_stub, "add")
+def test_call_add_purchase_with_correct_values(sut, http_request, add_purchase_dummy, add_purchase_model_fake, mocker):
+    # Monitor method add_purchase_dummy.add
+    spy = mocker.spy(add_purchase_dummy, "add")
     sut.handle(http_request)
     spy.assert_called_once_with(add_purchase_model_fake)
 
