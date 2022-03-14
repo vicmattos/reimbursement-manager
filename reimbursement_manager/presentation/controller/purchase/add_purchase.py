@@ -17,12 +17,7 @@ class AddPurchaseController(Controller):
             self._validate_amount(request.body.get('amount'))
             self._validate_currency(request.body.get('currency'))
 
-            self._add_purchase.add(AddPurchaseModel(
-                amount=request.body.get('amount'),
-                currency=request.body.get('currency'),
-                date=request.body.get('date')
-            ))
-
+            self._add(request.body)
             response = success_response()
 
         except (MissingParamError, InvalidParamError) as err:
@@ -49,3 +44,13 @@ class AddPurchaseController(Controller):
         is_valid = self._currency_validator.is_valid(currency)
         if not is_valid:
             raise InvalidParamError(param_name='currency')
+
+
+    def _add(self, request_body: dict) -> None:
+
+        amount = request_body.get('amount')
+        currency = request_body.get('currency')
+        date = request_body.get('date')
+
+        model = AddPurchaseModel(amount, currency, date)
+        self._add_purchase.add(model)
