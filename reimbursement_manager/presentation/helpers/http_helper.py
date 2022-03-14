@@ -13,8 +13,7 @@ def invalid_request_response(message: str) -> HttpResponse:
 
 
 def internal_error_response(error: str = "Internal Server Error") -> HttpResponse:
-    body = {"message": error}
     return HttpResponse(
         status_code=HTTPStatus.INTERNAL_SERVER_ERROR.value,
-        body=body
+        body={"message": error}
     )
