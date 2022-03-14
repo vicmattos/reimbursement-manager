@@ -18,10 +18,10 @@ def sut(dummy_add_purchase, stub_currency_validator):
 @pytest.fixture
 def fake_http_request():
     return HttpRequest(
-        body = dict(
-            amount = Decimal(10.00),
-            currency = "BRL",
-            date = date.today()
+        body=dict(
+            amount=Decimal(10.00),
+            currency="BRL",
+            date=date.today()
         )
     )
 

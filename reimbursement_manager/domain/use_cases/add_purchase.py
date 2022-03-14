@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 
 from reimbursement_manager.domain.model.purchase import PurchaseModel
 
+
 class AddPurchaseModel():
 
     def __init__(self, amount, currency, date):
@@ -13,15 +14,15 @@ class AddPurchaseModel():
 
     @property
     def amount(self) -> Decimal:
-        return self._amount # pragma: no cover
+        return self._amount  # pragma: no cover
 
     @property
     def currency(self) -> str:
-        return self._currency # pragma: no cover
+        return self._currency  # pragma: no cover
 
     @property
     def date(self) -> date:
-        return self._date # pragma: no cover
+        return self._date  # pragma: no cover
 
     def __eq__(self, other):
         if not isinstance(other, AddPurchaseModel):
@@ -38,4 +39,4 @@ class AddPurchase(ABC):
 
     @abstractmethod
     def add(self, add_purchase_model: AddPurchaseModel) -> PurchaseModel:
-        raise NotImplementedError() # pragma: no cover
+        raise NotImplementedError()  # pragma: no cover

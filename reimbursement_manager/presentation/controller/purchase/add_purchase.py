@@ -5,6 +5,7 @@ from reimbursement_manager.presentation.protocols import HttpResponse, HttpReque
 from reimbursement_manager.presentation.errors import MissingParamError, InvalidParamError
 from reimbursement_manager.domain.use_cases.add_purchase import AddPurchase, AddPurchaseModel
 
+
 class AddPurchaseController(Controller):
 
     def __init__(self, add_purchase: AddPurchase, currency_validator: CurrencyValidator):
@@ -28,26 +29,25 @@ class AddPurchaseController(Controller):
         return response
 
 
-    def _validate_required_fields(self, required_fields: List[str], body: dict) -> None:
+    def _validate_required_fields(self, required_fields: List[str], body: dict) -> None:  # noqa: E303
         for required_field in required_fields:
             field_value = body.get(required_field, None)
             if field_value is None:
                 raise MissingParamError(param_name=required_field)
 
 
-    def _validate_amount(self, amount: int) -> None:
+    def _validate_amount(self, amount: int) -> None:  # noqa: E303
         if amount <= 0:
             raise InvalidParamError(param_name='amount')
 
 
-    def _validate_currency(self, currency: str) -> None:
+    def _validate_currency(self, currency: str) -> None:  # noqa: E303
         is_valid = self._currency_validator.is_valid(currency)
         if not is_valid:
             raise InvalidParamError(param_name='currency')
 
 
-    def _add(self, request_body: dict) -> None:
-
+    def _add(self, request_body: dict) -> None:  # noqa: E303
         amount = request_body.get('amount')
         currency = request_body.get('currency')
         date = request_body.get('date')

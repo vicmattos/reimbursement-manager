@@ -1,1 +1,1 @@
-from .add_purchase import AddPurchaseController
+from .add_purchase import AddPurchaseController  # noqa: F401
