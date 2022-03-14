@@ -1,6 +1,6 @@
+from abc import ABC, abstractmethod
 from datetime import date
 from decimal import Decimal
-from abc import ABC, abstractmethod
 
 from reimbursement_manager.domain.model.purchase import PurchaseModel
 
