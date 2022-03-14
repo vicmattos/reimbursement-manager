@@ -6,7 +6,8 @@ import pytest
 
 from reimbursement_manager.presentation.controller.purchase import AddPurchaseController
 from reimbursement_manager.presentation.protocols import HttpResponse, HttpRequest, CurrencyValidator
-from reimbursement_manager.domain.use_cases.add_purchase import AddPurchase
+from reimbursement_manager.domain.use_cases.add_purchase import AddPurchase, AddPurchaseModel
+from reimbursement_manager.domain.model.purchase import PurchaseModel
 
 
 @pytest.fixture
@@ -28,9 +29,18 @@ def http_request():
 @pytest.fixture
 def add_purchase_stub():
     class AddPurchaseStub(AddPurchase):
-        def add(self, amount: Decimal, currency: str, date: date) -> None:
+        def add(self, add_purchase_model: AddPurchaseModel) -> PurchaseModel:
             return None
     return AddPurchaseStub()
+
+
+@pytest.fixture
+def add_purchase_model_fake(http_request):
+    return AddPurchaseModel(
+        amount=http_request.body.get('amount'),
+        currency=http_request.body.get('currency'),
+        date=http_request.body.get('date'),
+    )
 
 
 @pytest.fixture
@@ -106,15 +116,11 @@ def test_return_500_if_CurrencyValidator_raises_error(sut, http_request, currenc
     assert http_response.body.get('message') == "Internal Server Error"
 
 
-def test_ensure_add_purchase_call_with_correct_values(sut, http_request, add_purchase_stub, mocker):
+def test_call_add_purchase_with_correct_values(sut, http_request, add_purchase_stub, add_purchase_model_fake, mocker):
     # Monitor method add_purchase_stub.add
     spy = mocker.spy(add_purchase_stub, "add")
     sut.handle(http_request)
-    spy.assert_called_once_with(
-        amount=http_request.body.get("amount"),
-        currency=http_request.body.get("currency"),
-        date=http_request.body.get("date")
-    )
+    spy.assert_called_once_with(add_purchase_model_fake)
 
 
 def test_return_200_if_correct_values_are_provided(sut, http_request):

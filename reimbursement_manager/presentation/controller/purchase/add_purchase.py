@@ -3,7 +3,7 @@ from typing import List
 from reimbursement_manager.presentation.helpers.http_helper import invalid_request_response, internal_error_response, success_response
 from reimbursement_manager.presentation.protocols import HttpResponse, HttpRequest, Controller, CurrencyValidator
 from reimbursement_manager.presentation.errors import MissingParamError, InvalidParamError
-from reimbursement_manager.domain.use_cases.add_purchase import AddPurchase
+from reimbursement_manager.domain.use_cases.add_purchase import AddPurchase, AddPurchaseModel
 
 class AddPurchaseController(Controller):
 
@@ -17,11 +17,11 @@ class AddPurchaseController(Controller):
             self._validate_amount(request.body.get('amount'))
             self._validate_currency(request.body.get('currency'))
 
-            self._add_purchase.add(
+            self._add_purchase.add(AddPurchaseModel(
                 amount=request.body.get('amount'),
                 currency=request.body.get('currency'),
                 date=request.body.get('date')
-            )
+            ))
 
             response = success_response()
 
