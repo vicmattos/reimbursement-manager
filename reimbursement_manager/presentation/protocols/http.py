@@ -17,7 +17,7 @@ class HttpResponse():
 
 class HttpRequest():
 
-    def __init__(self, body: dict = {}):
+    def __init__(self, body: dict = None):
         self._body = body
 
     @property
