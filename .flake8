@@ -1,9 +1,10 @@
 [flake8]
-select = B,C,E,F,I,W
+select = B,C,E,F,I,S,W
 max-complexity = 10
 max-line-length = 88
 import-order-style = google
 application-import-names = reimbursement_manager
+per-file-ignores = tests/*:S101
 ignore =
     # E501: line too long
     E501,
