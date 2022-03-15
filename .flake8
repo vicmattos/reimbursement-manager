@@ -1,5 +1,19 @@
 [flake8]
-select = B,C,E,F,I,S,W
+select =
+    # bugbear: B = bug
+    B,
+    # flake8(mccabe): C = complexity
+    C,
+    # flake8(pycodestyle): E = error
+    E,
+    # flake8(pyflake): F = failure (invalid Python code)
+    F,
+    # flake8-import-order: I = import
+    I,
+    # bandit: = S = security
+    S,
+    # flake8(pycodestyle): warning
+    W
 max-complexity = 10
 max-line-length = 88
 import-order-style = google
