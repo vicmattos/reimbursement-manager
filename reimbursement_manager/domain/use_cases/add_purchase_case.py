@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from datetime import date
 from decimal import Decimal
 
-from reimbursement_manager.domain.model.purchase import PurchaseModel
+from reimbursement_manager.domain.model.purchase_model import PurchaseModel
 
 
 class AddPurchaseModel():

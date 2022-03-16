@@ -3,7 +3,7 @@ from decimal import Decimal
 
 import pytest
 
-from reimbursement_manager.domain.use_cases.add_purchase import AddPurchaseModel
+from reimbursement_manager.domain.use_cases.add_purchase_case import AddPurchaseModel
 
 
 @pytest.fixture

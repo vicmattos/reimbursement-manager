@@ -1,6 +1,6 @@
 from typing import List
 
-from reimbursement_manager.domain.use_cases.add_purchase import AddPurchase, AddPurchaseModel
+from reimbursement_manager.domain.use_cases.add_purchase_case import AddPurchase, AddPurchaseModel
 from reimbursement_manager.presentation.errors import InvalidParamError, MissingParamError
 from reimbursement_manager.presentation.protocols import Controller, CurrencyValidator, HttpRequest, HttpResponse
 from reimbursement_manager.presentation.helpers.http_helper import (  # noqa: I100
