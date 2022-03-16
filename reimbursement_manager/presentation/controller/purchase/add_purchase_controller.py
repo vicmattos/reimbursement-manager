@@ -1,3 +1,5 @@
+from datetime import date as Date
+from decimal import Decimal
 from typing import List
 
 from reimbursement_manager.domain.use_cases.add_purchase_case import AddPurchase, AddPurchaseModel
@@ -50,9 +52,10 @@ class AddPurchaseController(Controller):
 
 
     def _add(self, request_body: dict) -> None:  # noqa: E303
-        amount = request_body.get('amount')
-        currency = request_body.get('currency')
-        date = request_body.get('date')
+        amount = Decimal(request_body.get('amount'))  # type: ignore
+        currency = str(request_body.get('currency'))
+        year, month, day = request_body.get('date').split('-')  # type: ignore
+        date = Date(year, month, day)
 
         model = AddPurchaseModel(amount, currency, date)
         self._add_purchase.add(model)
