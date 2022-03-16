@@ -1,4 +1,6 @@
-from typing import List
+from datetime import date as Date
+from decimal import Decimal
+from typing import Any, Dict, List, Optional, Union
 
 from reimbursement_manager.domain.use_cases.add_purchase_case import AddPurchase, AddPurchaseModel
 from reimbursement_manager.presentation.errors import InvalidParamError, MissingParamError
@@ -6,6 +8,9 @@ from reimbursement_manager.presentation.protocols import Controller, CurrencyVal
 from reimbursement_manager.presentation.helpers.http_helper import (  # noqa: I100
     internal_error_response, invalid_request_response, success_response
 )
+
+
+TypeHttpBody = Optional[Dict[Any, Any]]
 
 
 class AddPurchaseController(Controller):
@@ -17,10 +22,12 @@ class AddPurchaseController(Controller):
     def handle(self, request: HttpRequest) -> HttpResponse:
         try:
             self._validate_required_fields(['amount', 'currency', 'date'], request.body)
-            self._validate_amount(request.body.get('amount'))
-            self._validate_currency(request.body.get('currency'))
+            amount, currency, date = self._extract_body_values(request.body)
 
-            self._add(request.body)
+            self._validate_amount(amount)
+            self._validate_currency(currency)
+
+            self._add(amount, currency, date)
             response = success_response()
 
         except (MissingParamError, InvalidParamError) as err:
@@ -31,15 +38,22 @@ class AddPurchaseController(Controller):
         return response
 
 
-    def _validate_required_fields(self, required_fields: List[str], body: dict) -> None:  # noqa: E303
+    def _validate_required_fields(self, required_fields: List[str], body: TypeHttpBody) -> None:  # noqa: E303
         for required_field in required_fields:
             field_value = body.get(required_field, None)
             if field_value is None:
                 raise MissingParamError(param_name=required_field)
 
 
-    def _validate_amount(self, amount: int) -> None:  # noqa: E303
-        if amount <= 0:
+    def _extract_body_values(self, request_body: TypeHttpBody) -> List[Union[Decimal, str, Date]]:  # noqa: E303
+        amount = request_body.get('amount')  # type: ignore
+        currency = request_body.get('currency')  # type: ignore
+        date = request_body.get('date')  # type: ignore
+        return amount, currency, date
+
+
+    def _validate_amount(self, amount: Decimal) -> None:  # noqa: E303
+        if amount.is_zero() or amount.is_signed():
             raise InvalidParamError(param_name='amount')
 
 
@@ -49,10 +63,6 @@ class AddPurchaseController(Controller):
             raise InvalidParamError(param_name='currency')
 
 
-    def _add(self, request_body: dict) -> None:  # noqa: E303
-        amount = request_body.get('amount')  # type: ignore
-        currency = request_body.get('currency')  # type: ignore
-        date = request_body.get('date')  # type: ignore
-
+    def _add(self, amount: Decimal, currency: str, date: Date) -> None:  # noqa: E303
         model = AddPurchaseModel(amount, currency, date)
         self._add_purchase.add(model)

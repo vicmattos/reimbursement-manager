@@ -74,7 +74,7 @@ def test_return_400_if_no_date_is_provided(sut, fake_http_request):
 
 def test_return_400_if_negative_amount_is_provided(sut, fake_http_request, mocker):
     # Change value in fake_http_request.body['amount'] to negative
-    mocker.patch.dict(fake_http_request.body, {'amount': -1})
+    mocker.patch.dict(fake_http_request.body, {'amount': Decimal(-1)})
     http_response: HttpResponse = sut.handle(fake_http_request)
     assert http_response.status_code == 400
     assert http_response.body.get('message') == "Invalid param: amount"
@@ -82,7 +82,7 @@ def test_return_400_if_negative_amount_is_provided(sut, fake_http_request, mocke
 
 def test_return_400_if_zero_amount_is_provided(sut, fake_http_request, mocker):
     # Change value in fake_http_request.body['amount'] to negative
-    mocker.patch.dict(fake_http_request.body, {'amount': 0})
+    mocker.patch.dict(fake_http_request.body, {'amount': Decimal(0)})
     http_response: HttpResponse = sut.handle(fake_http_request)
     assert http_response.status_code == 400
     assert http_response.body.get('message') == "Invalid param: amount"
