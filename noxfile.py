@@ -44,6 +44,13 @@ def flake8(session):
 
 
 @nox.session()
+def mypy(session) -> None:
+    args = session.posargs or locations
+    install_with_constraints(session, "mypy")
+    session.run("mypy", *args)
+
+
+@nox.session()
 def safety(session):
     with tempfile.NamedTemporaryFile() as requirements:
         session.run(
