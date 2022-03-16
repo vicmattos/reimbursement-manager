@@ -1,5 +1,7 @@
 [flake8]
 select =
+    # flake8-annotations: ANN = annotation
+    ANN,
     # bugbear: B = bug
     B,
     # flake8(mccabe): C = complexity
@@ -18,9 +20,13 @@ max-complexity = 10
 max-line-length = 88
 import-order-style = google
 application-import-names = reimbursement_manager
-per-file-ignores = tests/*:S101
 ignore =
     # E501: line too long
     E501,
     # BLK100: Black would make changes.
     BLK100,
+    # ANN101: Missing type annotation for self in method
+    ANN101,
+per-file-ignores =
+    tests/*:S101,ANN
+    noxfile.py:ANN

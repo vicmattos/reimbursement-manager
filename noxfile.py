@@ -40,6 +40,7 @@ def flake8(session):
     install_with_constraints(
         session,
         "flake8",
+        "flake8-annotations",
         "flake8-bandit",
         "flake8-bugbear",
         "flake8-import-order",
