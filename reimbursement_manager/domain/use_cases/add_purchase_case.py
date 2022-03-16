@@ -7,7 +7,7 @@ from reimbursement_manager.domain.model.purchase_model import PurchaseModel
 
 class AddPurchaseModel():
 
-    def __init__(self, amount, currency, date):
+    def __init__(self, amount: Decimal, currency: str, date: date):
         self._amount = amount
         self._currency = currency
         self._date = date

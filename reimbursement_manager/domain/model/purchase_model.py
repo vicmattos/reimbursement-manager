@@ -4,7 +4,7 @@ from decimal import Decimal
 
 class PurchaseModel():
 
-    def __init__(self, id, amount, currency, date):  # pragma: no cover
+    def __init__(self, id: str, amount: Decimal, currency: str, date: date):  # pragma: no cover
         self._id = id
         self._amount = amount
         self._currency = currency
