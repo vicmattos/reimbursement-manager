@@ -123,6 +123,14 @@ def test_call_add_purchase_with_correct_values(sut, fake_http_request, dummy_add
     spy.assert_called_once_with(fake_add_purchase_model)
 
 
+def test_return_500_if_AddPurchase_raises_error(sut, fake_http_request, dummy_add_purchase, mocker):
+    # Make `add_purchase.add` raises Exception
+    mocker.patch.object(dummy_add_purchase, "add", side_effect=Exception)
+    http_response: HttpResponse = sut.handle(fake_http_request)
+    assert http_response.status_code == 500
+    assert http_response.body.get('message') == "Internal Server Error"
+
+
 def test_return_200_if_correct_values_are_provided(sut, fake_http_request):
     http_response: HttpResponse = sut.handle(fake_http_request)
     assert http_response.status_code == 200
