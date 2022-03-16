@@ -22,5 +22,5 @@ per-file-ignores = tests/*:S101
 ignore =
     # E501: line too long
     E501,
-    # E303: too many blank lines
-    # E303,
+    # BLK100: Black would make changes.
+    BLK100,
