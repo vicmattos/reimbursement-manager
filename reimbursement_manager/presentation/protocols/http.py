@@ -10,4 +10,4 @@ class HttpResponse:
 
 @dataclass
 class HttpRequest:
-    body: dict = None
+    body: Optional[dict] = None
