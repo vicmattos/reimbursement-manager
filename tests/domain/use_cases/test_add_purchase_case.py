@@ -1,3 +1,4 @@
+from copy import deepcopy
 from datetime import date
 from decimal import Decimal
 
@@ -15,9 +16,7 @@ def sut():
 
 
 def test_result_true_comparing_with_correct_values(sut):
-    other = AddPurchaseModel(
-        amount=Decimal(10.00),
-        currency='BRL',
-        date=date.today()
-    )
+    other = deepcopy(sut)
+    # verify that are different objects
+    assert id(sut) != id(other)
     assert sut == other
