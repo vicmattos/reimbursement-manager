@@ -8,11 +8,6 @@ class HttpResponse:
     body: Optional[dict] = None
 
 
-class HttpRequest():
-
-    def __init__(self, body: dict = None):
-        self._body = body
-
-    @property
-    def body(self):
-        return self._body
+@dataclass
+class HttpRequest:
+    body: dict = None
