@@ -10,7 +10,7 @@ from reimbursement_manager.presentation.helpers.http_helper import (  # noqa: I1
 
 class AddPurchaseController(Controller):
 
-    def __init__(self, add_purchase: AddPurchase, currency_validator: CurrencyValidator):
+    def __init__(self, add_purchase: AddPurchase, currency_validator: CurrencyValidator) -> None:
         self._add_purchase = add_purchase
         self._currency_validator = currency_validator
 
