@@ -1,19 +1,11 @@
+from dataclasses import dataclass
 from typing import Optional
 
 
-class HttpResponse():
-
-    def __init__(self, status_code: int, body: Optional[dict] = None):
-        self._status_code = status_code
-        self._body = body
-
-    @property
-    def status_code(self) -> int:
-        return self._status_code
-
-    @property
-    def body(self) -> Optional[dict]:
-        return self._body
+@dataclass
+class HttpResponse:
+    status_code: int
+    body: Optional[dict] = None
 
 
 class HttpRequest():
