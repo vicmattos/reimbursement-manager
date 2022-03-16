@@ -39,4 +39,4 @@ tasks:
 
   test:
     cmds:
-      - nox --session tests --reuse-existing-virtualenvs
+      - nox --session pytest --reuse-existing-virtualenvs

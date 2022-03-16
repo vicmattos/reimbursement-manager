@@ -21,7 +21,7 @@ def install_with_constraints(session, *args, **kwargs):
 
 
 @nox.session()
-def tests(session):
+def pytest(session):
     args = session.posargs or ["--cov"]
     session.run("poetry", "install", "--no-dev", external=True)
     install_with_constraints(
