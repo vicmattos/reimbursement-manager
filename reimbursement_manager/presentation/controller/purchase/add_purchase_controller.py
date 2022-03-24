@@ -1,4 +1,4 @@
-from datetime import date as Date
+from datetime import date
 from decimal import Decimal
 from typing import Dict, List, Tuple
 
@@ -19,12 +19,12 @@ class AddPurchaseController(Controller):
     def handle(self, request: HttpRequest) -> HttpResponse:
         try:
             self._validate_required_fields(['amount', 'currency', 'date'], request.body)
-            amount, currency, date = self._extract_body_values(request.body)
+            amount, currency, pdate = self._extract_body_values(request.body)
 
             self._validate_amount(amount)
             self._validate_currency(currency)
 
-            self._add(amount, currency, date)
+            self._add(amount, currency, pdate)
             response = success_response()
 
         except (MissingParamError, InvalidParamError) as err:
@@ -42,10 +42,10 @@ class AddPurchaseController(Controller):
                 raise MissingParamError(param_name=required_field)
 
 
-    def _extract_body_values(self, request_body: Dict) -> Tuple[Decimal, str, Date]:  # noqa: E303
+    def _extract_body_values(self, request_body: Dict) -> Tuple[Decimal, str, date]:  # noqa: E303
         amount: Decimal = request_body.get('amount')  # type: ignore
         currency: str = request_body.get('currency')  # type: ignore
-        date: Date = request_body.get('date')  # type: ignore
+        date: date = request_body.get('date')  # type: ignore
         return amount, currency, date
 
 
@@ -60,6 +60,6 @@ class AddPurchaseController(Controller):
             raise InvalidParamError(param_name='currency')
 
 
-    def _add(self, amount: Decimal, currency: str, date: Date) -> None:  # noqa: E303
-        model = AddPurchaseModel(amount, currency, date)
+    def _add(self, amount: Decimal, currency: str, pdate: date) -> None:  # noqa: E303
+        model = AddPurchaseModel(amount, currency, pdate)
         self._add_purchase.add(model)
