@@ -1,6 +1,6 @@
 from datetime import date as Date
 from decimal import Decimal
-from typing import Any, Dict, List, Optional, Union
+from typing import Dict, List, Tuple
 
 from reimbursement_manager.domain.use_cases.add_purchase_case import AddPurchase, AddPurchaseModel
 from reimbursement_manager.presentation.errors import InvalidParamError, MissingParamError
@@ -8,9 +8,6 @@ from reimbursement_manager.presentation.protocols import Controller, CurrencyVal
 from reimbursement_manager.presentation.helpers.http_helper import (  # noqa: I100
     internal_error_response, invalid_request_response, success_response
 )
-
-
-TypeHttpBody = Optional[Dict[Any, Any]]
 
 
 class AddPurchaseController(Controller):
@@ -38,17 +35,17 @@ class AddPurchaseController(Controller):
         return response
 
 
-    def _validate_required_fields(self, required_fields: List[str], body: TypeHttpBody) -> None:  # noqa: E303
+    def _validate_required_fields(self, required_fields: List[str], body: Dict) -> None:  # noqa: E303
         for required_field in required_fields:
-            field_value = body.get(required_field, None)
+            field_value = body.get(required_field, None)  # type: ignore
             if field_value is None:
                 raise MissingParamError(param_name=required_field)
 
 
-    def _extract_body_values(self, request_body: TypeHttpBody) -> List[Union[Decimal, str, Date]]:  # noqa: E303
-        amount = request_body.get('amount')  # type: ignore
-        currency = request_body.get('currency')  # type: ignore
-        date = request_body.get('date')  # type: ignore
+    def _extract_body_values(self, request_body: Dict) -> Tuple[Decimal, str, Date]:  # noqa: E303
+        amount: Decimal = request_body.get('amount')  # type: ignore
+        currency: str = request_body.get('currency')  # type: ignore
+        date: Date = request_body.get('date')  # type: ignore
         return amount, currency, date
 
 

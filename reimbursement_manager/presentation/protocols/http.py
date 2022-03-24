@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional
 
 
@@ -10,4 +10,4 @@ class HttpResponse:
 
 @dataclass
 class HttpRequest:
-    body: Optional[dict] = None
+    body: dict = field(default_factory=dict)
