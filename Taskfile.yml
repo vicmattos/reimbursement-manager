@@ -40,3 +40,7 @@ tasks:
   test:
     cmds:
       - nox --session pytest --reuse-existing-virtualenvs
+
+  lint:
+    cmds:
+      - nox --session flake8
