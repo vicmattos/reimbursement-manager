@@ -9,7 +9,7 @@ def sut():
     return CurrencyValidatorAdapter()
 
 
-def test_return_false_if_invalid_currency(sut):
+def test_return_false_if_invalid_currency_provided(sut):
     is_valid: bool = sut.is_valid("invalid_currency")
     assert is_valid is False
 
