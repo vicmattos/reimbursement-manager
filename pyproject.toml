@@ -11,6 +11,7 @@ keywords = ["reimbursement"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+iso4217 = "^1.8.20211001"
 
 [tool.poetry.dev-dependencies]
 pytest = "^7.0.1"
