@@ -12,3 +12,8 @@ def sut():
 def test_return_false_if_invalid_currency(sut):
     is_valid: bool = sut.is_valid("invalid_currency")
     assert is_valid is False
+
+
+def test_return_true_if_valid_currency_provided(sut):
+    is_valid: bool = sut.is_valid("BRL")
+    assert is_valid is True
